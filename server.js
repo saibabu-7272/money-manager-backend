@@ -112,7 +112,7 @@ app.post('/login', async (request, response) => {
             // Replace 'MY_SECRET_TOKEN' with your JWT secret key
             const token = jwt.sign({ userId: isUserExist._id }, process.env.JWT_SECRET,{ expiresIn: '100h' });
             response.status(200)
-            response.send({ jwtToken: token, email: isUserExist.email });
+            response.send({ jwtToken: token, userId: isUserExist._id });
         } else {
             response.status(401)
             response.send({ errorMsg: "Incorrect password" });
