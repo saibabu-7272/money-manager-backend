@@ -47,12 +47,12 @@ const authenticateToken = (request, response, next) => {
     }
     if (jwtToken === undefined) {
         response.status(401);
-        response.send("Invalid JWT Token 1");
+        response.send("Invalid JWT Token");
     } else {
         jwt.verify(jwtToken, process.env.JWT_SECRET, async (error, payload) => {
             if (error) {
                 response.status(401);
-                response.send({ "Invalid JWT Token 2": error });
+                response.send({ "Invalid JWT Token": error.message });
             } else {
                 request.userId = payload.userId;
                 next();
@@ -89,7 +89,7 @@ app.post('/register', async (request, response) => {
         }
     } catch (error) {
         response.status(500)
-        response.send({ "Internal server error:": error });
+        response.send({ "Internal server error:": error.message });
     }
 });
 
@@ -119,7 +119,7 @@ app.post('/login', async (request, response) => {
         }
     } catch (error) {
         response.status(500)
-        response.send({ "Internal server error:": error });
+        response.send({ "Internal server error:": error,message });
     }
 });
 
@@ -134,7 +134,7 @@ app.get('/getUserData/:userId', authenticateToken, async (request, response) => 
         response.send(result);
     } catch (error) {
         response.status(500)
-        response.send({ "Internal server error:": error });
+        response.send({ "Internal server error:": error.message });
     }
 });
 
